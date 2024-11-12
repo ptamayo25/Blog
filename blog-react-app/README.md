@@ -64,3 +64,17 @@ Desktop Screenshot:
 
 Mobile Screenshot:
 ![alt text](./public/mobile-screenshot.png)
+
+## Components Structures New feautures added
+
+- LikeButton: Button Click Handling and rendering for Individual Like Button
+- CommentSection: Handles showing and hiding comments and accepting new comments for individual comment section
+- BlogPost: updated to include like button and comment section for each post
+
+## Screenshots
+
+Comments expand and liked on first post:
+![alt text](./public/Screenshot_2024-11-12%20.png)
+
+Comments collapsed and unliked on first post:
+![alt text](./public/Screenshot_2024-11-12-2.png)
