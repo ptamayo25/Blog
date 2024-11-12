@@ -1,4 +1,4 @@
-.blog-post {
+/* .blog-post {
     max-width: 800px;
     margin: 2rem auto;
     padding: 1.5rem;
@@ -29,7 +29,7 @@
     color: #333;
 }
 
-/* Responsive Design */
+//Responsive Design 
 @media (max-width: 768px) {
     .blog-post {
         margin: 1rem;
@@ -41,3 +41,4 @@
         gap: 0.5rem;
     }
 }
+*/
