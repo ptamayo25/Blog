@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import "./RichTextEditor.css";
 
-function RichTextEditor({ value, onChange, error }) {
+function RichTextEditor({ name, value, onChange, error }) {
   const [selection, setSelection] = useState(null);
 
   const handleFormat = (format) => {
@@ -74,6 +74,7 @@ function RichTextEditor({ value, onChange, error }) {
         </button>
       </div>
       <textarea
+        name={name}
         className={`rich-editor__content ${error ? "error" : ""}`}
         value={value}
         onChange={(e) => onChange(e.target.value)}

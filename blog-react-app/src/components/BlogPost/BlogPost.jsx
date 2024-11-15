@@ -19,7 +19,7 @@ function BlogPost({ id, title, content, author, date }) {
 
   const displayContent = isExpanded 
     ? content 
-    : content.slice(0, 200) + (content.length > 200 ? '...' : '');
+    : content.slice(0, 100) + (content.length > 100 ? '...' : '');
 
   return (
     <article className="blog-post">
