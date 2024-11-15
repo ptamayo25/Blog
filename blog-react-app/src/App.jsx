@@ -11,7 +11,7 @@ function App() {
       <main className="main-content">
         <BlogList posts={posts} />
         <PostEditor />
-        {/* <TagInput /> */}
+        
       </main>
     </div>
   );
