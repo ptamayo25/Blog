@@ -1,6 +1,8 @@
 import BlogPost from "../BlogPost/BlogPost";
 import { posts } from "../../data/posts";
 import "./SubmitModal.css";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 
 function SubmitModal(showModal, formData, Close, Submit) {
   const handleOutsideClick = (event) => {
@@ -12,6 +14,10 @@ function SubmitModal(showModal, formData, Close, Submit) {
     Submit();
     Close();
   }
+
+  //Clean form data content and convert markdown content to html
+  const sanitizedHTML = DOMPurify.sanitize(marked(formData.content || ""));
+  console.log(sanitizedHTML);
 
   if (showModal) {
     if (formData.isPreview && formData.isPublished) {
@@ -29,7 +35,7 @@ function SubmitModal(showModal, formData, Close, Submit) {
             <BlogPost
               key={posts.length + 1}
               title={formData.title}
-              content={formData.content}
+              content={sanitizedHTML}
               author="You"
               date={formData.date}
             />
@@ -67,7 +73,7 @@ function SubmitModal(showModal, formData, Close, Submit) {
             <BlogPost
               key={posts.length + 1}
               title={formData.title}
-              content={formData.content}
+              content={sanitizedHTML}
               author="You"
               date={formData.date}
             />

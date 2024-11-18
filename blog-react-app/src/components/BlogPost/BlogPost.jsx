@@ -14,12 +14,12 @@ function BlogPost({ id, title, content, author, date }) {
   }, [content]);
 
   const toggleContent = () => {
-    setIsExpanded(prev => !prev);
+    setIsExpanded((prev) => !prev);
   };
 
-  const displayContent = isExpanded 
-    ? content 
-    : content.slice(0, 100) + (content.length > 100 ? '...' : '');
+  const displayContent = isExpanded
+    ? content
+    : content.slice(0, 100) + (content.length > 100 ? "..." : "");
 
   return (
     <article className="blog-post">
@@ -31,15 +31,12 @@ function BlogPost({ id, title, content, author, date }) {
           <span className="blog-post__read-time">{readTime} min read</span>
         </div>
       </div>
-      
+
       <div className="blog-post__content">
-        <p>{displayContent}</p>
-        {content.length > 200 && (
-          <button 
-            onClick={toggleContent}
-            className="blog-post__expand"
-          >
-            {isExpanded ? 'Read less' : 'Read more'}
+        {content} {/*was <p>{displayContent}</p> */}
+        {content.length > 100 && (
+          <button onClick={toggleContent} className="blog-post__expand">
+            {isExpanded ? "Read less" : "Read more"}
           </button>
         )}
       </div>

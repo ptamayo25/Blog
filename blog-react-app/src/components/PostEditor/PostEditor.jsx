@@ -3,33 +3,33 @@ import "./PostEditor.css";
 import TagInput from "../TagInput/TagInput";
 import RichTextEditor from "../RichTextEditor/RichTextEditor";
 import SubmitModal from "../SubmitModal/SubmitModal";
-import Modal from "../../../../../react-examples/src/modal/Modal";
+
+function initialFormData() {
+  const savedFormData = localStorage.getItem("postEditorFormData");
+  console.log(savedFormData);
+  return savedFormData
+    ? JSON.parse(savedFormData)
+    : {
+        title: "",
+        content: "",
+        tags: [],
+        category: "general",
+        isPublished: false,
+        date: "",
+      };
+}
 
 function PostEditor() {
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    tags: [],
-    category: "general",
-    isPublished: false,
-    date: "",
-  });
+  const [formData, setFormData] = useState(initialFormData());
 
   const [errors, setErrors] = useState({});
   const [isDirty, setIsDirty] = useState({});
   const [showModal, setShowModal] = useState(false);
 
-  // Load form data from localStorage on component mount
-  useEffect(() => {
-    const savedFormData = localStorage.getItem("postEditorFormData");
-    if (savedFormData) {
-      setFormData(JSON.parse(savedFormData));
-    }
-  }, []);
-
   // Save form data to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("postEditorFormData", JSON.stringify(formData));
+    const stringFormData = JSON.stringify(formData);
+    localStorage.setItem("postEditorFormData", stringFormData);
   }, [formData]);
 
   const validateField = (name, value) => {
@@ -94,12 +94,12 @@ function PostEditor() {
 
     if (Object.keys(newErrors).length === 0) {
       // Form is valid, handle submission
-      // setShowModal(true);
-
+      //set date of post to current date at submittal time
       const today = new Date();
       formData.date = `${today.getFullYear()}-${
         today.getMonth() + 1
       }-${today.getDate()}`;
+      //log form data
       console.log("Form submitted:", formData);
     }
   };
@@ -116,7 +116,6 @@ function PostEditor() {
 
     if (Object.keys(newErrors).length === 0) {
       // Form is valid, handle submission
-      // setShowModal(true);
 
       const today = new Date();
       formData.date = `${today.getFullYear()}-${
