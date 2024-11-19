@@ -104,7 +104,7 @@ function PostEditor() {
     setSavedDrafts((prev) => prev.splice(index, 1));
   }
 
-  function handlePublishPost() {
+  function handlePublishPost(formData) {
     //log form data
     console.log("Form submitted:", formData);
     // setFormData({
