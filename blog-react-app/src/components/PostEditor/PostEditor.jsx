@@ -3,10 +3,10 @@ import "./PostEditor.css";
 import TagInput from "../TagInput/TagInput";
 import RichTextEditor from "../RichTextEditor/RichTextEditor";
 import SubmitModal from "../SubmitModal/SubmitModal";
+import PostDraft from "../PostDraft/PostDraft";
 
 function initialFormData() {
   const savedFormData = localStorage.getItem("postEditorFormData");
-  console.log(savedFormData);
   return savedFormData
     ? JSON.parse(savedFormData)
     : {
@@ -15,8 +15,15 @@ function initialFormData() {
         tags: [],
         category: "general",
         isPublished: false,
+        isPreview: false,
+        image: null,
         date: "",
       };
+}
+
+function initialSavedDrafts() {
+  const savedDrafts = localStorage.getItem("draftSaves");
+  return savedDrafts ? JSON.parse(savedDrafts) : [];
 }
 
 function PostEditor() {
@@ -25,12 +32,19 @@ function PostEditor() {
   const [errors, setErrors] = useState({});
   const [isDirty, setIsDirty] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [savedDrafts, setSavedDrafts] = useState(initialSavedDrafts());
+  const [previewImage, setPreviewImage] = useState(null); // For image preview
 
   // Save form data to localStorage whenever it changes
   useEffect(() => {
-    const stringFormData = JSON.stringify(formData);
-    localStorage.setItem("postEditorFormData", stringFormData);
+    localStorage.setItem("postEditorFormData", JSON.stringify(formData));
   }, [formData]);
+
+  // Save drafts to local storage whenever form submitted
+  useEffect(() => {
+    console.log("in useEffect draft saves");
+    localStorage.setItem("draftSaves", JSON.stringify(savedDrafts));
+  }, [savedDrafts]);
 
   const validateField = (name, value) => {
     switch (name) {
@@ -80,6 +94,39 @@ function PostEditor() {
     setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
   };
 
+  const handleSaveDraft = () => {
+    //save a draft
+    const draftFormData = formData;
+    setSavedDrafts((prev) => [...prev, draftFormData]);
+  };
+
+  function handleDeleteDraftPost(index) {
+    setSavedDrafts((prev) => prev.splice(index, 1));
+  }
+
+  function handlePublishPost() {
+    //log form data
+    console.log("Form submitted:", formData);
+    // setFormData({
+    //   title: "",
+    //   content: "",
+    //   tags: [],
+    //   category: "general",
+    //   isPublished: false,
+    //   isPreview: false,
+    //   date: "",
+    // });
+  }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Update formData and generate a preview URL
+      setFormData((prev) => ({ ...prev, image: file }));
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -99,8 +146,14 @@ function PostEditor() {
       formData.date = `${today.getFullYear()}-${
         today.getMonth() + 1
       }-${today.getDate()}`;
-      //log form data
-      console.log("Form submitted:", formData);
+
+      if (!formData.isPublished && !formData.isPreview) {
+        handleSaveDraft();
+      }
+
+      if (formData.isPublished && !formData.isPreview) {
+        handlePublishPost();
+      }
     }
   };
 
@@ -121,12 +174,11 @@ function PostEditor() {
       formData.date = `${today.getFullYear()}-${
         today.getMonth() + 1
       }-${today.getDate()}`;
-      console.log("Form submitted:", formData);
+      handlePublishPost();
     }
   };
 
   const handleClick = (e) => {
-    console.log("in handle click");
     setShowModal(true);
   };
 
@@ -136,6 +188,21 @@ function PostEditor() {
 
   return (
     <>
+      <div className="draftPosts">
+        <h2>Draft Posts</h2>
+        {savedDrafts.length !== 0 ? (
+          savedDrafts.map((draft, index) => (
+            <PostDraft
+              formData={draft}
+              index={index}
+              Delete={handleDeleteDraftPost}
+              Publish={handlePublishPost()}
+            />
+          ))
+        ) : (
+          <div></div>
+        )}
+      </div>
       <form onSubmit={handleSubmit} className="post-editor">
         <div className="form-group">
           <label htmlFor="title">Title *</label>
@@ -153,7 +220,26 @@ function PostEditor() {
           )}
         </div>
         <div className="form-group">
-          <label htmlFor="content">Content</label>
+          <label htmlFor="imageUpload">Upload an Image</label>
+          <input
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+          {previewImage && (
+            <div>
+              <p>Image Preview:</p>
+              <img
+                src={previewImage}
+                alt="Preview"
+                style={{ width: "200px", height: "auto" }}
+              />
+            </div>
+          )}
+        </div>
+        <div className="form-group">
+          <label htmlFor="content">Content *</label>
           {/* <textarea
           name="content"
           id="content"
@@ -183,6 +269,7 @@ function PostEditor() {
           }
           error={errors.tags}
         />
+
         <div className="form-group">
           <label htmlFor="category">Category</label>
           <select
@@ -225,18 +312,13 @@ function PostEditor() {
       </form>
 
       <div id="modalContainer">
-        {/* <SubmitModal
-          showModal={showModal}
-          formData={formData}
-          Close={handleCloseModal}
-          Submit={handleSubmit}
-        /> */}
         {showModal &&
           SubmitModal(
             showModal,
             formData,
             handleCloseModal,
-            handleSubmitPreview
+            handleSubmitPreview,
+            handleSaveDraft
           )}
       </div>
     </>
@@ -244,10 +326,3 @@ function PostEditor() {
 }
 
 export default PostEditor;
-
-{
-  /* {showModal && Modal(showModal, setShowModal)} */
-}
-{
-  /* SubmitModal(showModal, formData, handleCloseModal, handleClick)} */
-}

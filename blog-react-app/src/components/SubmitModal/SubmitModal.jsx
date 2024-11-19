@@ -1,23 +1,34 @@
 import BlogPost from "../BlogPost/BlogPost";
-import { posts } from "../../data/posts";
 import "./SubmitModal.css";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 
-function SubmitModal(showModal, formData, Close, Submit) {
+function SubmitModal(showModal, formData, Close, Submit, SaveDraft) {
   const handleOutsideClick = (event) => {
     if (event.target.className === "modal") {
       Close();
     }
   };
-  function handleClick() {
+  function handleSubmitClick() {
     Submit();
+    Close();
+  }
+
+  function handleSaveClick() {
+    SaveDraft();
     Close();
   }
 
   //Clean form data content and convert markdown content to html
   const sanitizedHTML = DOMPurify.sanitize(marked(formData.content || ""));
-  console.log(sanitizedHTML);
+
+  // Create a temporary DOM elementconst
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = sanitizedHTML; // Select the first <p> tag
+  const pTag = tempDiv.querySelector("p"); // Extract text content from the <p> tag
+  const textContent = pTag ? pTag.textContent || pTag.innerText : "";
+
+  //   const textContent = pTag ? pTag.textContent.replace(/\<b>|\<\/b\>/g, "") : "";
 
   if (showModal) {
     if (formData.isPreview && formData.isPublished) {
@@ -33,9 +44,8 @@ function SubmitModal(showModal, formData, Close, Submit) {
             </span>
             <h3>Post Preview View</h3>
             <BlogPost
-              key={posts.length + 1}
               title={formData.title}
-              content={sanitizedHTML}
+              content={textContent}
               author="You"
               date={formData.date}
             />
@@ -71,12 +81,13 @@ function SubmitModal(showModal, formData, Close, Submit) {
             </span>
             <h3>Post Preview View</h3>
             <BlogPost
-              key={posts.length + 1}
               title={formData.title}
-              content={sanitizedHTML}
+              content={textContent}
               author="You"
               date={formData.date}
             />
+            <button onClick={handleSaveClick}>Save Draft</button>
+            <button onClick={handleSubmitClick}>Publish Post</button>
           </div>
         </div>
       );
