@@ -21,3 +21,9 @@
     font-size: 0.875rem;
     margin-top: 0.25rem;
 }
+
+.draftPosts {
+    background-color: gray;
+    padding: 10px;
+    border-radius: 8px;
+}
