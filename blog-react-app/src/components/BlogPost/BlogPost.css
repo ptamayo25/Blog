@@ -29,6 +29,9 @@
     color: #333;
 }
 
+.highlight {
+    background-color: rgb(172, 203, 172);
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     .blog-post {
