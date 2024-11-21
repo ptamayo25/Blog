@@ -1,3 +1,4 @@
+import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import Home from "../pages/Home/Home";
@@ -7,8 +8,9 @@ import NewPost from "../pages/NewPost/NewPost";
 import EditPost from "../pages/EditPost/EditPost";
 import Profile from "../pages/Profile/Profile";
 import NotFound from "../pages/NotFound/NotFound";
-import React from "react";
+import Login from "../pages/Login/Login";
 import { posts } from "../data/posts";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -34,17 +36,21 @@ export const router = createBrowserRouter([
           },
           {
             path: "new",
-            element: <NewPost />,
+            element: <ProtectedRoute element={<NewPost />} />,
           },
           {
             path: ":id/edit",
-            element: <EditPost />,
+            element: <ProtectedRoute element={<EditPost />} />,
           },
         ],
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: <ProtectedRoute element={<Profile />} />,
+      },
+      {
+        path: "login",
+        element: <Login />,
       },
     ],
   },

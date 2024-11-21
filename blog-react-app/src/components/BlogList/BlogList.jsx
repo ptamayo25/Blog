@@ -12,7 +12,6 @@ const POSTS_PER_PAGE = 5;
 
 function BlogList({ posts }) {
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(posts);
   const {
     filters,
     handleFilterChange,
