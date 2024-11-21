@@ -188,21 +188,6 @@ function PostEditor() {
 
   return (
     <>
-      <div className="draftPosts">
-        <h2>Draft Posts</h2>
-        {savedDrafts.length !== 0 ? (
-          savedDrafts.map((draft, index) => (
-            <PostDraft
-              formData={draft}
-              index={index}
-              Delete={handleDeleteDraftPost}
-              Publish={handlePublishPost()}
-            />
-          ))
-        ) : (
-          <div></div>
-        )}
-      </div>
       <form onSubmit={handleSubmit} className="post-editor">
         <div className="form-group">
           <label htmlFor="title">Title *</label>
@@ -320,6 +305,21 @@ function PostEditor() {
             handleSubmitPreview,
             handleSaveDraft
           )}
+      </div>
+      <div className="draftPosts">
+        <h2>Draft Posts</h2>
+        {savedDrafts.length !== 0 ? (
+          savedDrafts.map((draft, index) => (
+            <PostDraft
+              formData={draft}
+              index={index}
+              Delete={handleDeleteDraftPost}
+              Publish={handlePublishPost}
+            />
+          ))
+        ) : (
+          <div></div>
+        )}
       </div>
     </>
   );
