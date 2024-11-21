@@ -26,7 +26,7 @@ function PostDraft(formData, index, Delete, Publish) {
   }
   function handlePublishDraft() {
     // console.log("Form submitted:", formData.formData);
-    Publish;
+    // Publish;
   }
 
   return (
