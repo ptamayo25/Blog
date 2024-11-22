@@ -6,12 +6,11 @@ import BlogSearch from "../BlogSearch/BlogSearch";
 import BlogFilters from "../BlogFilters/BlogFilters";
 import BlogPost from "../BlogPost/BlogPost";
 import Pagination from "../Pagination/Pagination";
+import { usePagination } from "../../hooks/usePagination";
 import "./BlogList.css";
 
-const POSTS_PER_PAGE = 5;
-
 function BlogList({ posts }) {
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const {
     filters,
     handleFilterChange,
@@ -28,13 +27,10 @@ function BlogList({ posts }) {
     isSearching,
   } = useSearch(filteredItems);
 
-  const displayedPosts = searchResults;
-  const totalPages = Math.ceil(displayedPosts.length / POSTS_PER_PAGE);
+  const paginator = usePagination(searchResults);
+  // console.log("paginatedItems: ", paginatedItems);
 
-  const currentPosts = displayedPosts.slice(
-    (currentPage - 1) * POSTS_PER_PAGE,
-    currentPage * POSTS_PER_PAGE
-  );
+  const currentPosts = paginator.items;
 
   return (
     <div className="blog-list-container">
@@ -60,11 +56,7 @@ function BlogList({ posts }) {
               <BlogPost key={post.id} {...post} searchTerm={searchTerm} />
             ))}
           </div>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          <Pagination paginator={paginator} />
         </>
       ) : (
         <div className="no-results">No posts found matching your criteria.</div>

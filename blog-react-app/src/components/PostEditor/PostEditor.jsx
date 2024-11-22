@@ -129,6 +129,7 @@ function PostEditor() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setShowModal(true);
 
     // Validate all fields
     const newErrors = {};
@@ -291,21 +292,21 @@ function PostEditor() {
             Preview Post
           </label>
         </div>
-        <button type="submit" onClick={handleClick} className="submit-button">
+        <button type="submit" className="submit-button">
           {formData.isPublished ? "Publish Post" : "Save Draft"}
         </button>
+        <div id="modalContainer">
+          {showModal &&
+            SubmitModal(
+              showModal,
+              formData,
+              handleCloseModal,
+              handleSubmitPreview,
+              handleSaveDraft
+            )}
+        </div>
       </form>
 
-      <div id="modalContainer">
-        {showModal &&
-          SubmitModal(
-            showModal,
-            formData,
-            handleCloseModal,
-            handleSubmitPreview,
-            handleSaveDraft
-          )}
-      </div>
       <div className="draftPosts">
         <h2>Draft Posts</h2>
         {savedDrafts.length !== 0 ? (
