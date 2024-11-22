@@ -49,7 +49,7 @@ function SubmitModal(showModal, formData, Close, Submit, SaveDraft) {
               author="You"
               date={formData.date}
             />
-            <button onClick={handleClick}>Publish Post</button>
+            <button onClick={Submit}>Publish Post</button>
           </div>
         </div>
       );
