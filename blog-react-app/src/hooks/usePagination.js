@@ -1,8 +1,7 @@
 import { useMemo, useState, useCallback } from "react";
 
-export function usePagination(items, itemsPerPage = 10) {
+export function usePagination(items, itemsPerPage = 4) {
   const [currentPage, setCurrentPage] = useState(1);
-  console.log("in use pagination, items:", items);
 
   const totalPages = useMemo(
     () => Math.ceil(items.length / itemsPerPage),
