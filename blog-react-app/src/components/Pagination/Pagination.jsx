@@ -30,6 +30,7 @@ function Pagination({ paginator }) {
             key={number}
             className={`page-number ${number === currentPage ? "active" : ""}`}
             onClick={() => goToPage(number)}
+
           >
             {number}
           </button>
@@ -48,9 +49,15 @@ function Pagination({ paginator }) {
 }
 
 Pagination.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
+  paginator: PropTypes.shape({
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    goToPage: PropTypes.func.isRequired,
+    nextPage: PropTypes.func.isRequired,
+    prevPage: PropTypes.func.isRequired,
+    hasNext: PropTypes.bool.isRequired,
+    hasPrev: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
 export default Pagination;
