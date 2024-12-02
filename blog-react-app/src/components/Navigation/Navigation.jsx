@@ -11,6 +11,7 @@ function Navigation({ toggleSidebar }) {
     { path: "/posts/blog", label: "Blog" },
     { path: "/posts/new", label: "New Post" },
     { path: "/profile", label: "Profile" },
+    { path: "/login", label: "Login" },
   ];
 
   const toggleMenu = () => {

@@ -1,10 +1,7 @@
-import { memo } from "react";
 import PropTypes from "prop-types";
 import "./Pagination.css";
 
-const Pagination = memo(function Pagination({ paginator }) {
-  console.log("in Pagination.jsx");
-
+function Pagination({ paginator }) {
   const {
     currentPage,
     totalPages,
@@ -32,7 +29,8 @@ const Pagination = memo(function Pagination({ paginator }) {
           <button
             key={number}
             className={`page-number ${number === currentPage ? "active" : ""}`}
-            onClick={() => goToPage(number)} // Pass the number to `goToPage`
+            onClick={() => goToPage(number)}
+
           >
             {number}
           </button>
@@ -48,7 +46,7 @@ const Pagination = memo(function Pagination({ paginator }) {
       </button>
     </div>
   );
-});
+}
 
 Pagination.propTypes = {
   paginator: PropTypes.shape({

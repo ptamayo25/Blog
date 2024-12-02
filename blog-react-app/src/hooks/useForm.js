@@ -15,6 +15,8 @@ export function useForm(initialValues = {}, validate = () => ({})) {
       if (errors[name]) {
         setErrors((prev) => ({ ...prev, [name]: "" }));
       }
+
+      console.log("name is ", name, " value is ", value);
     },
     [errors]
   );
@@ -33,6 +35,7 @@ export function useForm(initialValues = {}, validate = () => ({})) {
 
   const handleSubmit = useCallback(
     async (onSubmit) => {
+      console.log("handleSubmit");
       setIsSubmitting(true);
 
       // Validate all fields

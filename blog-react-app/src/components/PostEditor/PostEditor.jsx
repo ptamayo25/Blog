@@ -42,7 +42,6 @@ function PostEditor() {
 
   // Save drafts to local storage whenever form submitted
   useEffect(() => {
-    console.log("in useEffect draft saves");
     localStorage.setItem("draftSaves", JSON.stringify(savedDrafts));
   }, [savedDrafts]);
 
@@ -107,15 +106,15 @@ function PostEditor() {
   function handlePublishPost(formData) {
     //log form data
     console.log("Form submitted:", formData);
-    // setFormData({
-    //   title: "",
-    //   content: "",
-    //   tags: [],
-    //   category: "general",
-    //   isPublished: false,
-    //   isPreview: false,
-    //   date: "",
-    // });
+    setFormData({
+      title: "",
+      content: "",
+      tags: [],
+      category: "general",
+      isPublished: false,
+      isPreview: false,
+      date: "",
+    });
   }
 
   const handleImageChange = (e) => {
